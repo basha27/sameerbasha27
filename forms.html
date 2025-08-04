@@ -1,0 +1,37 @@
+from fpdf import FPDF
+
+class PDF(FPDF):
+    def header(self):
+        self.set_font('Arial', 'B', 14)
+        self.cell(0, 10, 'Mangosteen Production & Pricing in India', ln=True, align='C')
+        self.ln(5)
+
+    def table(self, data):
+        self.set_font("Arial", "B", 12)
+        col_widths = [60, 65, 65]
+        headers = ["State", "Market Selling Price (INR/kg)", "Farmgate Price (INR/kg)"]
+        for i in range(len(headers)):
+            self.cell(col_widths[i], 10, headers[i], border=1, align='C')
+        self.ln()
+        self.set_font("Arial", "", 12)
+        for row in data:
+            for i in range(len(row)):
+                self.cell(col_widths[i], 10, row[i], border=1, align='C')
+            self.ln()
+
+# Data (replace values if needed)
+data = [
+    ["Kerala", "600 - 900", "300 - 450"],
+    ["Tamil Nadu", "500 - 800", "250 - 400"],
+    ["Karnataka", "500 - 750", "250 - 400"]
+]
+
+# Create PDF
+pdf = PDF()
+pdf.add_page()
+pdf.table(data)
+
+# Save the file
+pdf.output("Mangosteen_Pricing_India.pdf")
+
+print("PDF created successfully!")
